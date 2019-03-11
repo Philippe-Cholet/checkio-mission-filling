@@ -26,20 +26,21 @@ checkio.referee.cover_codes
 from checkio import api
 from checkio.signals import ON_CONNECT
 from checkio.referees.io import CheckiOReferee
-#from checkio.referees import cover_codes
+# from checkio.referees import cover_codes
 
 from tests import TESTS
 
+
 def checker(input_grid, result):
     # 1) Check all types.
-    if not (isinstance(result, (tuple, list)) and \
-            all(isinstance(row, (tuple, list)) for row in result) and \
+    if not (isinstance(result, (tuple, list)) and
+            all(isinstance(row, (tuple, list)) for row in result) and
             all(isinstance(n, int) for row in result for n in row)):
         return False, ("The result must be a list/tuple "
                        "of lists/tuples of ints.")
     # 2) Check all sizes.
     nb_rows, nb_cols = len(input_grid), len(input_grid[0])
-    if not (len(result) == nb_rows and \
+    if not (len(result) == nb_rows and
             all(len(row) == nb_cols for row in result)):
         return False, "The result must have the same size as input grid."
     # 3) Check if there is any forbidden change.
@@ -52,12 +53,11 @@ def checker(input_grid, result):
             if not (0 < res_n <= 9):
                 return False, f"{res_n} is impossible at {(i, j)}."
     # 4) Is it filled properly? Thanks to DFS on all connected components.
-    visited = {(i, j): False for i in range(nb_rows)
-                             for j in range(nb_cols)}
+    visited = {(i, j): False for i in range(nb_rows) for j in range(nb_cols)}
     while True:
         try:
             start = i, j = next(coord for coord, visit in visited.items()
-                                      if not visit)
+                                if not visit)
         except StopIteration:
             break
         stack, nb, count = [start], result[i][j], 0
@@ -66,8 +66,8 @@ def checker(input_grid, result):
             visited[i, j] = True
             count += 1
             for x, y in ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)):
-                if 0 <= x < nb_rows and 0 <= y < nb_cols and \
-                   not visited[x, y] and result[x][y] == nb:
+                if (0 <= x < nb_rows and 0 <= y < nb_cols and
+                        not visited[x, y] and result[x][y] == nb):
                     stack.append((x, y))
         if count != nb:
             return False, (f"Zone at {start} should have {nb} elements, "
@@ -78,11 +78,11 @@ def checker(input_grid, result):
 api.add_listener(
     ON_CONNECT,
     CheckiOReferee(
-        tests = TESTS,
-        checker = checker,
-        function_name = {
+        tests=TESTS,
+        checker=checker,
+        function_name={
             "python": "filling",
-            #"js": "filling"
+            # "js": "filling"
         },
         ).on_ready
 )

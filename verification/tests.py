@@ -25,16 +25,17 @@ def line2grid(line):
     """ Reshape the line into a grid, thanks to the given dim. """
     dim, line = line.split(':')
     nb_cols, nb_rows = map(int, dim.split('x'))
-    rows = (line[i * nb_cols : (i + 1) * nb_cols] for i in range(nb_rows))
+    rows = (line[i * nb_cols: (i + 1) * nb_cols] for i in range(nb_rows))
     return nb_cols * nb_rows, [list(map(int, row)) for row in rows]
 
-TESTS = {"Basics": [], "Extra": []}
+
+TESTS = {'Basics': [], 'Extra': []}
 
 for nb_boxes, grid in map(line2grid, LINES):
-    category = ("Basics", "Extra")[nb_boxes > 50]
-    TESTS[category].append({"input": grid, "answer": grid})
+    category = ('Basics', 'Extra')[nb_boxes > 50]
+    TESTS[category].append({'input': grid, 'answer': grid})
 
-### for initial code ###
-##GRIDS = (d["input"] for d in TESTS["Basics"])
-##GRIDS = tuple((f"{len(grid)}x{len(grid[0])}", grid) for grid in GRIDS)
-##print('GRIDS =', GRIDS)
+# # ----- for initial code ----- #
+# GRIDS = (d['input'] for d in TESTS['Basics'])
+# GRIDS = tuple((f'{len(grid)}x{len(grid[0])}', grid) for grid in GRIDS)
+# print('GRIDS =', GRIDS)

@@ -51,12 +51,23 @@ if __name__ == '__main__':
                 % (start, expected, len(cells)), sorted(cells)
             )
 
+    def grid2url(grid):
+        url = 'https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/filling.html'
+        ncols, nrows = len(grid[0]), len(grid)
+        line = ''.join(str(digit) for row in grid for digit in row)
+        for i in range(26)[::-1]:
+            line = line.replace('0' * (i + 1), chr(ord('a') + i))
+        return f'{url}#{ncols}x{nrows}:{line}'
+
     GRIDS = (
-        [[1, 4, 0, 1, 0],
-         [0, 0, 1, 0, 0],
-         [0, 1, 0, 1, 4],
-         [0, 5, 0, 4, 2],
-         [0, 0, 0, 1, 0]],
+        [[0, 2, 0],
+         [0, 0, 2],
+         [0, 1, 0]],
+        [[0, 0, 2, 1, 0],
+         [3, 3, 0, 0, 4],
+         [0, 0, 0, 4, 4],
+         [2, 2, 3, 0, 0],
+         [5, 0, 0, 0, 0]],
         [[1, 0, 1, 0, 1, 4, 0, 0],
          [3, 0, 2, 3, 0, 0, 0, 4],
          [0, 0, 0, 1, 0, 0, 5, 1],
@@ -76,6 +87,8 @@ if __name__ == '__main__':
             if not wrong_cells:
                 print(result)
             else:
+                if 'change non-empty cells' not in error_message:
+                    print(grid2url(result))
                 print('Positions of the wrong cells:', wrong_cells)
                 for row in result:
                     print(*row)

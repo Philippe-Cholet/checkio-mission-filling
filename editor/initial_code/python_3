@@ -87,11 +87,11 @@ if __name__ == '__main__':
             if not wrong_cells:
                 print(result)
             else:
-                if 'change non-empty cells' not in error_message:
-                    print(grid2url(result))
                 print('Positions of the wrong cells:', wrong_cells)
                 for row in result:
                     print(*row)
+                if 'change non-empty cells' not in error_message:
+                    print('Solve your own incomplete grid manually?', grid2url(result))
             break
     else:
         print('Click on "Check" for more tests.')

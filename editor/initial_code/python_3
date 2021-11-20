@@ -91,7 +91,8 @@ if __name__ == '__main__':
                 for row in result:
                     print(*row)
                 if 'change non-empty cells' not in error_message:
-                    print('Solve your own incomplete grid manually?', grid2url(result))
+                    print('If you want to solve your own incomplete grid manually, you can use this link:')
+                    print(grid2url(result))
             break
     else:
         print('Click on "Check" for more tests.')
